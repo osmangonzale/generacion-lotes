@@ -1,0 +1,73 @@
+body{
+    font-family: sans-serif;
+    font-size: 10px !important;
+}
+.header-cell {
+    text-align: center;
+    background-color: #c1c1c1 !important;
+    font-weight: bold;
+}
+
+.body-table {
+    font-size: 12px;
+}
+
+.logo-cell {
+    text-align: center;
+    width: 34%;
+}
+
+.logo-img {
+    width: 200px;
+    /*height: 70px;*/
+}
+
+.title-cell {
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center !important; 
+}
+
+.code-version-cell {
+    font-weight: bold;
+    font-size: 15px;
+}
+th {
+    background-color: #34ace0 !important;
+    padding: 5px !important;
+    color: white !important;
+}
+td{
+    border-left: 1px solid #e8e3e3;
+    padding: 5px !important;
+    border-top:  1px solid #e8e3e3;
+        /*border-bottom:   1px solid #e8e3e3;*/
+}
+
+
+/* Estilo para el primer td en la primera fila del thead */
+table thead tr:first-child th:first-child {
+    border-top-left-radius: 5px;
+}
+
+/* Estilo para el último td en la primera fila del thead */
+table thead tr:first-child th:last-child {
+    border-top-right-radius: 5px;
+}
+
+/* Estilo para el primer td en la última fila del tbody */
+table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+/* Estilo para el último td en la última fila del tbody */
+table tbody td:last-child {
+        border-right: 1px solid #e8e3e3;
+        border-top:  1px solid #e8e3e3;
+        /*border-bottom:   1px solid #e8e3e3;*/
+}
+table tbody tr:last-child td {
+        /*border-right: 1px solid #e8e3e3;*/
+        /*border-top:  1px solid #e8e3e3;*/
+        border-bottom:   1px solid #e8e3e3;
+}
