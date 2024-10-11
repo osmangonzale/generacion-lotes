@@ -18,6 +18,126 @@ public class UsuarioJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
+    public Integer ObtenerIdUsuarioPorUser(String user) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        Integer idUsuario = null;
+        try {
+            Query query = etm.createNativeQuery("CALL sp_c_ObtenerIdUsuario('" + user + "')");
+            query.setParameter(1, user);
+            idUsuario = (Integer) query.getSingleResult();
+
+            etm.getTransaction().commit();
+        } catch (Exception ex) {
+            if (etm.getTransaction().isActive()) {
+                etm.getTransaction().rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            etm.clear();
+            etm.close();
+        }
+        return idUsuario;
+    }
+
+    public boolean ActualizarIntentos(String p_user, int p_intentos) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query q = etm.createNativeQuery("CALL sp_a_actualizar_intentos_usuario('" + p_user + "', '" + p_intentos + "')");
+            q.setParameter(1, p_user);
+            q.setParameter(2, p_intentos);
+            int exitoso = q.executeUpdate();
+            etm.getTransaction().commit();
+            etm.clear();
+            etm.close();
+            return exitoso > 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public int obtenerIntentos(String p_user) {
+        EntityManager etm = getEntityManager();
+        try {
+            Query q = etm.createNativeQuery("CALL sp_a_obtener_intentos_usuario('" + p_user + "')");
+            q.setParameter(1, p_user);
+            Object result = q.getSingleResult();
+            if (result != null) {
+                return ((Number) result).intValue();
+            } else {
+                return -1;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return -1;
+        } finally {
+            etm.close();
+        }
+    }
+
+    public boolean ActualizarEstadoIntentosYBloqueo(int idUsuario, int nuevoIntentos) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query query = etm.createNativeQuery("CALL ActualizarEstadoIntentosYBloqueo('" + idUsuario + "', '" + nuevoIntentos + "')");
+            query.setParameter(1, idUsuario);
+            query.setParameter(2, nuevoIntentos);
+            query.executeUpdate();
+            etm.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            if (etm.getTransaction().isActive()) {
+                etm.getTransaction().rollback();
+            }
+            ex.printStackTrace();
+            return false;
+        } finally {
+            etm.clear();
+            etm.close();
+        }
+    }
+
+    public List CalcularTiempoBloqueoUsuario(int idUsuario) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query q = etm.createNativeQuery("CALL sp_Calcular_TiempoBloqueo_usuario('" + idUsuario + "')");
+            List consulta = q.getResultList();
+            etm.getTransaction().commit();
+            etm.clear();
+            etm.close();
+            if (consulta.isEmpty()) {
+                return null;
+            } else {
+                return consulta;
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public boolean DesbloquearUsuario(int idUsuario) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query query = etm.createNativeQuery("CALL sp_a_desbloqueo_usuario(" + idUsuario + ")");
+            query.executeUpdate();
+            etm.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            if (etm.getTransaction().isActive()) {
+                etm.getTransaction().rollback();
+            }
+            ex.printStackTrace();
+            return false;
+        } finally {
+            etm.clear();
+            etm.close();
+        }
+    }
+
     public List Usuario_sesion(String usa, String pwd) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -207,7 +327,8 @@ public class UsuarioJpaController implements Serializable {
             return false;
         }
     }
-        public boolean Modificar_proceso_usu(int idpro, int idusu) {
+
+    public boolean Modificar_proceso_usu(int idpro, int idusu) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
         try {

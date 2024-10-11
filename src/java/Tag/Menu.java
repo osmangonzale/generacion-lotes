@@ -113,6 +113,14 @@ public class Menu extends TagSupport {
                     + "              <div class=\"dropdown-header\">Convenciones\n"
                     + "              </div>\n"
                     + "              <div class=\"dropdown-list-content dropdown-list-icons\">\n"
+                    + "                <a href=\"#\" class=\"dropdown-item\">\n"
+                    + "                  <div class=\"dropdown-item-icon bg-success text-white\">\n"
+                    + "                    <i class=\"fas fa-eye\"></i>\n"
+                    + "                  </div>\n"
+                    + "                  <div class=\"dropdown-item-desc\">\n"
+                    + "                    <b>Ver R-GC-051, versión 008, a partir del 26 de agosto de 2024.</b>\n"
+                    + "                  </div>\n"
+                    + "                </a>\n"
                     + "                <a href=\"#\" class=\"dropdown-item dropdown-item-unread\">\n"
                     + "                  <div class=\"dropdown-item-icon bg-primary text-white\">\n"
                     + "                    <i class=\"fas fa-plus\"></i>\n"
@@ -222,7 +230,7 @@ public class Menu extends TagSupport {
                     + "                    <i class=\"fas fa-eye\"></i>\n"
                     + "                  </div>\n"
                     + "                  <div class=\"dropdown-item-desc\">\n"
-                    + "                    <b>Ver R-GC-051 o VER R-GC-071.</b>\n"
+                    + "                    <b>Ver R-GC-070</b>\n"
                     + "                  </div>\n"
                     + "                </a>\n"
                     + "                <a href=\"#\" class=\"dropdown-item\">\n"
@@ -333,13 +341,13 @@ public class Menu extends TagSupport {
             out.print("</li>");
             out.print("<li class=\"menu-header\">Generacion de Lotes</li>");
             out.print("<li class=\"dropdown\">");
-            if (txtPermisos.contains("[86]")) {
-                out.print("<a href=\"in?opc=1\" class=\"nav-link\"><i class=\"fab fa-hubspot\"></i> <span>Iny/Ext</span></a>");
+            if (txtPermisos.contains("[87]")) {
+                out.print("<a href=\"ControlConsecutivos?opc=1\" class=\"nav-link\"><i class=\"fas fa-boxes\"></i> <span>Control Consecutivos</span></a>");
             } else {
                 out.print("<li><a class=\"nav-link\" href='#'><i style='margin-right:4px' class='fas fa-ban'></i>No tiene permisos</a></li>");
             }
-            if (txtPermisos.contains("[87]")) {
-                out.print("<a href=\"ControlConsecutivos?opc=1\" class=\"nav-link\"><i class=\"fas fa-boxes\"></i> <span>Control Consecutivos</span></a>");
+            if (txtPermisos.contains("[86]")) {
+                out.print("<a href=\"in?opc=1\" class=\"nav-link\"><i class=\"fab fa-hubspot\"></i> <span>Iny/Ext</span></a>");
             } else {
                 out.print("<li><a class=\"nav-link\" href='#'><i style='margin-right:4px' class='fas fa-ban'></i>No tiene permisos</a></li>");
             }

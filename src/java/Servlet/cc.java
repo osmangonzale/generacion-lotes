@@ -46,7 +46,7 @@ public class cc extends HttpServlet {
             String nombre_proceso = null, formula, tipo = "", proceso, Id_proceso = "", pruebas = "", tipoproceso, cadena = "";
             String file_name = "", observacion = "", tipo_registro, lote, fecha, obs, nombre;
             int year = 0, id_ctrcons = 0, id, entregaPen, temp, id_order = 0;
-            int aplica, id_anexos, filtro, cons, id_add_anexo, id_registro = 0;
+            int aplica, id_anexos, filtro, cons, id_add_anexo, id_registro, idRol = 0;
             List lst_lotes = null;
             boolean result = false;
             int id_rol, id_rol_permission = 0;
@@ -95,7 +95,7 @@ public class cc extends HttpServlet {
                 id_anexos = 0;
             }
 //</editor-fold>
-             switch (opc) {
+            switch (opc) {
                 //<editor-fold defaultstate="collapsed" desc="CASO 1 ATRIBUTOS">
                 case 1:
                     try {
@@ -285,11 +285,12 @@ public class cc extends HttpServlet {
                 case 6:
                     tipo = "Inyeccion";
                     proceso = request.getParameter("slc_proceso");
-                    String yearString = request.getParameter("year"); // Obtén el año como una cadena
-                    year = Integer.parseInt(yearString); // Conviértelo a entero
+                    String yearString = request.getParameter("year");
+                    year = Integer.parseInt(yearString);
                     request.setAttribute("Modulo", tipo);
                     request.setAttribute("Flt_Id_proceso", proceso);
                     request.setAttribute("year", year);
+                    request.setAttribute("Id_rol", UserRol);
                     request.getRequestDispatcher("Controlconsecutivos.jsp").forward(request, response);
                     break;
 //</editor-fold>

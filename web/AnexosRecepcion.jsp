@@ -37,8 +37,20 @@
             } else {
                 fileItem = fileItemTemp;
                 try {
-                    file_name = fileItem.getName().toString().replace(" ", "A").replace(" ", "E").replace(" ", "I").replace(" ", "O").replace(" ", "U").replace(" ", "N").replace(" ", "_");
-                    String Route = getServletContext().getRealPath("//Interfaz//Contenido//Documentos//");
+                    file_name = fileItem.getName()
+                            .replaceAll("[Á]", "a")
+                            .replaceAll("[á]", "a")
+                            .replaceAll("[É]", "e")
+                            .replaceAll("[é]", "e")
+                            .replaceAll("[Í]", "i")
+                            .replaceAll("[í]", "i")
+                            .replaceAll("[Ó]", "o")
+                            .replaceAll("[ó]", "o")
+                            .replaceAll("[Ú]", "u")
+                            .replaceAll("[ú]", "u")
+                            .replaceAll("[Ñ]", "n")
+                            .replaceAll("[ñ]", "n");
+                    String Route = "\\\\172.16.5.99\\c$\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\Generacion_Lotes\\UserFiles\\File";
                     File dir_name = new File(Route);
                     if (file_name == "") {
                     } else {
@@ -49,21 +61,25 @@
                             } else {
                                 file_name = file_name + "_" + adjunto[i].toString();
                             }
-                            file_name = file_name.replace(" ", "A")
-                                                  .replace(" ", "E")
-                                                  .replace(" ", "I")
-                                                  .replace(" ", "O")
-                                                  .replace(" ", "U")
-                                                  .replace(" ", "N")
-                                                  .replace(" ", "_")
-                                                  .replace("(", "_")
-                                                  .replace(")", "_");
+                            file_name = file_name.replaceAll(" ", "_")
+                                    .replaceAll("[Á]", "a")
+                                    .replaceAll("[á]", "a")
+                                    .replaceAll("[É]", "e")
+                                    .replaceAll("[é]", "e")
+                                    .replaceAll("[Í]", "i")
+                                    .replaceAll("[í]", "i")
+                                    .replaceAll("[Ó]", "o")
+                                    .replaceAll("[ó]", "o")
+                                    .replaceAll("[Ú]", "u")
+                                    .replaceAll("[ú]", "u")
+                                    .replaceAll("[Ñ]", "n")
+                                    .replaceAll("[ñ]", "n");
                         }
                         extension = adjunto[(adjunto.length - 1)].toString();
                         file_name = file_name + "_" + ano + mes + dia + "_" + hora + minuto + "." + extension;
                         FileDocs += "[" + file_name + "]";
                     }
-                    
+
                     File saveTo = new File(dir_name, file_name);
                     fileItem.write(saveTo);
                 } catch (Exception e) {
@@ -80,11 +96,11 @@
         String observaciones = hidden.get(2).toString();
         String AttachOld = "";
         try {
-            AttachOld = hidden.get(6).toString();
+            AttachOld = hidden.get(3).toString();
             if (FileDocs.equals("")) {
                 FileDocs = AttachOld;
                 AttachOld = "NA";
-                
+
             }
         } catch (Exception e) {
             AttachOld = "NA";
@@ -93,7 +109,7 @@
         if (!AttachOld.toString().equals("NA")) {
             try {
                 AttachOld.toString().replace("//", "");
-                String dir_name = getServletContext().getRealPath("/Interfaz/Contenido/Documentos/");
+                String dir_name = "\\\\172.16.5.99\\c$\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\Generacion_Lotes\\UserFiles\\File\\";
                 File saveTo = new File(dir_name + AttachOld);
                 resultA = saveTo.delete();
             } catch (Exception e) {

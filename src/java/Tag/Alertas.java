@@ -1,6 +1,9 @@
 package Tag;
 
+import Controladores.UsuarioJpaController;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.jsp.JspException;
@@ -12,6 +15,10 @@ public class Alertas extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
+        UsuarioJpaController jpacusa = new UsuarioJpaController();
+        List lst_tiempo_restante = null;
+//        int id_usuario = 0;
+        int Id_usuario = 0;
         try {
             //<editor-fold defaultstate="collapsed" desc="PASSWORD">
             if (pageContext.getRequest().getAttribute("Cambio_contraseña") != null) {
@@ -41,7 +48,7 @@ public class Alertas extends TagSupport {
 
                 out.print("<div>");
                 out.print("</div>");
-                out.print("<p style='text-align: center;'>Recordar que la protección de datos, usuario y contraseña, ayuda a evitar fraudes o alteraciones en la Organización (Platitec) y en este Aplicativo.</p>");
+                out.print("<p style='text-align: center;'>Recordar que la protección de datos, usuario y contraseña, ayuda a evitar fraudes o alteraciones en la Organización (Plastitec) y en este Aplicativo.</p>");
                 out.print("<div style='width:100%' class='camb_body'>");
                 out.print("<form action='Sesion?opc=3' method='post'>");
                 out.print("<div class='form_pass'>");
@@ -157,16 +164,98 @@ public class Alertas extends TagSupport {
             }
             if (pageContext.getRequest().getAttribute("Usuario_no_existe") != null) {
                 boolean result = Boolean.valueOf(pageContext.getRequest().getAttribute("Usuario_no_existe").toString());
-                out.print("<script type='text/javascript'>");
-                out.print("$(\"#toastr-4\").ready(function() {\n"
-                        + "  iziToast.error({\n"
-                        + "    title: 'Error',\n"
-                        + "    message: 'Los datos ingresados no se encuentran registrados.',\n"
-                        + "    position: 'bottomRight'\n"
-                        + "  });\n"
-                        + "});");
-                out.print("</script>");
+                if (result) {
+                    out.print("<script type='text/javascript'>");
+                    out.print("$(\"#toastr-2\").ready(function() {\n"
+                            + "  iziToast.success({\n"
+                            + "    title: 'Correcto',\n"
+                            + "    message: 'El usuario o contraseña estan erroneas .',\n"
+                            + "    position: 'bottomRight'\n"
+                            + "  });\n"
+                            + "});");
+                    out.print("</script>");
+                } else {
+                    out.print("<script type='text/javascript'>");
+                    out.print("$(\"#toastr-4\").ready(function() {\n"
+                            + "  iziToast.error({\n"
+                            + "    title: 'Error',\n"
+                            + "    message: 'Ha ocurrido un problema en el registro.',\n"
+                            + "    position: 'bottomRight'\n"
+                            + "  });\n"
+                            + "});");
+                    out.print("</script>");
+                }
             }
+//            if (pageContext.getRequest().getAttribute("Usuario_no_existe") != null) {
+//                boolean result = Boolean.valueOf(pageContext.getRequest().getAttribute("Usuario_no_existe").toString());
+//                int intentosRestantes = Integer.parseInt(pageContext.getRequest().getAttribute("intentosRestantes").toString());
+//                out.print("<script type='text/javascript'>");
+//                out.print("$(\"#toastr-4\").ready(function() {\n"
+//                        + "  iziToast.warning({\n"
+//                        + "    title: 'Precaucion',\n"
+//                        + "    message: '¡El usuario ingresado no existe! Te quedan " + intentosRestantes + " intentos.',\n"
+//                        + "    position: 'bottomRight'\n"
+//                        + "  });\n"
+//                        + "});");
+//                out.print("</script>");
+//            }
+//            try {
+//                Id_usuario = (int) pageContext.getRequest().getAttribute("idUsuario");
+//            } catch (Exception e) {
+//                Id_usuario = 0;
+//            }
+//
+//            lst_tiempo_restante = jpacusa.CalcularTiempoBloqueoUsuario(Id_usuario);
+//            String tiempoRestanteStr = "0";
+//            if (lst_tiempo_restante != null && !lst_tiempo_restante.isEmpty()) {
+//                Object[] obj_usuarios = (Object[]) lst_tiempo_restante.get(0);
+//                if (obj_usuarios.length == 2) {
+//                    if (obj_usuarios[0] != null) {
+//                        tiempoRestanteStr = obj_usuarios[0].toString();
+//                    }
+//                }
+//            }
+//
+//            if (pageContext.getRequest().getAttribute("Usuario_bloqueado") != null && !tiempoRestanteStr.equals("0")) {
+//                out.print("<script type='text/javascript'>");
+//                out.print("$(document).ready(function() {\n"
+//                        + "  var tiempoRestante = parseInt('" + tiempoRestanteStr + "', 10);\n"
+//                        + "  var timerInterval;\n"
+//                        + "  Swal.fire({\n"
+//                        + "    icon: 'error',\n"
+//                        + "    iconHtml: '<i class=\"fas fa-lock swal2-custom-icon\"></i>',\n"
+//                        + "    title: '<div class=\"swal2-custom-title\">Lo sentimos...</div>',\n"
+//                        + "    html: '<div class=\"swal2-custom-content\"><p style=\"font-size:14px;\">Tu usuario ha sido bloqueado temporalmente! Tiempo restante: <b>' + tiempoRestante + '</b> segundos.</p></div>',\n"
+//                        + "    showConfirmButton: false,\n"
+//                        + "    allowOutsideClick: true,\n"
+//                        + "    timerProgressBar: true,\n"
+//                        + "    customClass: {\n"
+//                        + "      popup: 'swal2-custom-popup',\n"
+//                        + "    },\n"
+//                        + "    didOpen: () => {\n"
+//                        + "      Swal.showLoading();\n"
+//                        + "      timerInterval = setInterval(() => {\n"
+//                        + "        tiempoRestante--;\n"
+//                        + "        Swal.getHtmlContainer().querySelector('b').textContent = tiempoRestante;\n"
+//                        + "        if (tiempoRestante <= 0) {\n"
+//                        + "          clearInterval(timerInterval);\n"
+//                        + "          Swal.fire({\n"
+//                        + "            title: 'Desbloqueo completado',\n"
+//                        + "            text: 'Tu usuario ahora está desbloqueado.',\n"
+//                        + "            icon: 'success',\n"
+//                        + "            showConfirmButton: true,\n"
+//                        + "          });\n"
+//                        + "        }\n"
+//                        + "      }, 1000);\n"
+//                        + "    },\n"
+//                        + "    willClose: () => {\n"
+//                        + "      clearInterval(timerInterval);\n"
+//                        + "    }\n"
+//                        + "  });\n"
+//                        + "});\n");
+//                out.print("</script>");
+//            }
+
             if (pageContext.getRequest().getAttribute("Usuario_desactivado") != null) {
                 boolean result = false;
                 try {
@@ -870,7 +959,7 @@ public class Alertas extends TagSupport {
                     out.print("$(\"#toastr-2\").ready(function() {\n"
                             + "  iziToast.success({\n"
                             + "    title: 'Correcto',\n"
-                            + "    message: 'Se ha cargado el anexo correcatamente.',\n"
+                            + "    message: 'Se ha cargado el anexo correctamente.',\n"
                             + "    position: 'bottomRight'\n"
                             + "  });\n"
                             + "});");

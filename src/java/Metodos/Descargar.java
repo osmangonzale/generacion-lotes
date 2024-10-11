@@ -17,7 +17,7 @@ public class Descargar extends HttpServlet {
             String nombre_archivo = request.getParameter("file_name").toString();
             String archivo = "\\\\\\\\172.16.2.117\\\\Sistemas de informacion\\\\Generacion_lotes\\\\Adjuntos\\\\" + carpeta +"\\"+ nombre_archivo;
             File f = new File(archivo);
-            response.setContentType("application/pdf");//Se define  el tipo de archivo a descargar
+            response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + nombre_archivo + "\"");
             InputStream in = new FileInputStream(f);
             ServletOutputStream outs = response.getOutputStream();

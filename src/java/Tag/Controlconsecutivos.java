@@ -142,13 +142,20 @@ public class Controlconsecutivos extends TagSupport {
                     out.print("<input type='hidden' name='nombre_proceso' value='" + nombre_proceso + "'>");
                     out.print("<input type='hidden' name='year' value='" + year + "'>");
 
+                    out.print("<div class='col-12' style='margin-top:8%; margin-left:4%; width:101%;'>");
+                    out.print("<textarea class='form-control' name='Txt_descripcion' id='Txt_descripcion' placeholder='Descripcion' required data-toggle='tooltip' data-placemente='top' title='Descripcion'></textarea>");
+                    out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
+                    out.print("</div>");
+                    out.print("<br>");
                     out.print("<div class='col-12'>");
+                    out.print("<input type='hidden' class='form-control' name='IdVisit' id='IdVisit' value='0'>");
                     out.print("<div style='position: relative; width: 100%; height: 40px; margin-left:4%;'>");
                     out.print("<input type='file' class='custom-file-input' name='file_name' id='IdFile' style='position: absolute; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer;' placeholder='Seleccione archivo' required data-toggle='tooltip' data-placement='top' title='Seleccione archivo' onchange='updateFileName()'>");
                     out.print("<label class='custom-file-label' for='IdFile' style='position: absolute; top: 0; left: 0; width: 100%; height: 42px; line-height: 40px; padding: 0 15px; background-color: #fff; border: 1px solid #ced4da; border-radius: 4px; cursor: pointer;'>Seleccione un archivo</label>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
                     out.print("</div>");
+
                     out.print("<script>");
                     out.print("function updateFileName() {");
                     out.print("var input = document.getElementById('IdFile');");
@@ -157,12 +164,6 @@ public class Controlconsecutivos extends TagSupport {
                     out.print("label.innerText = fileName;");
                     out.print("}");
                     out.print("</script>");
-
-                    out.print("<div class='col-12' style='margin-top:8%; margin-left:4%; width:101%;'>");
-                    out.print("<textarea class='form-control' name='Txt_descripcion' id='' placeholder='Observacion' required data-toggle='tooltip' data-placemente='top' title='Observacion'></textarea>");
-                    out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
-                    out.print("</div>");
-                    out.print("<br>");
 
                     out.print("<script>");
                     out.print("document.getElementById('IdFile').addEventListener('change', function() { ");
@@ -173,7 +174,7 @@ public class Controlconsecutivos extends TagSupport {
                     out.print("});");
                     out.print("</script>");
 
-                    out.print("<div class='' style='width: 100%; text-align:center;'>");
+                    out.print("<div class='' style='width: 100%; text-align:center; margin-top: 50px;'>");
                     out.print("<button class='btn btn-green btn-lg'>Registrar</button>");
                     out.print("</div>");
 
@@ -211,7 +212,7 @@ public class Controlconsecutivos extends TagSupport {
                         out.print("</script>");
 
                         out.print("<div class='col-12' style='margin-top:8%; margin-left:4%; width:101%;'>");
-                        out.print("<textarea type='text' class='form-control' name='Txt_descripcion' id='' required data-toggle='tooltip' data-placemente='top' title='Observacion'>" + obje_anexos[4].toString().trim() + "</textarea>");
+                        out.print("<textarea type='text' class='form-control' name='Txt_descripcion' id='' required data-toggle='tooltip' data-placemente='top' title='Descripcion'>" + obje_anexos[4].toString().trim() + "</textarea>");
                         out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                         out.print("</div>");
                         out.print("<br>");
@@ -250,6 +251,7 @@ public class Controlconsecutivos extends TagSupport {
                 out.print("</tr>");
                 out.print("</thead>");
                 out.print("<tbody>");
+                
                 anexoNew = ctrlcons.Consulta_anexo_id(id_add_anexo, "R-GC-059");
                 if (anexoNew == null || anexoNew.isEmpty()) {
                     out.print("<tr>");
@@ -273,7 +275,11 @@ public class Controlconsecutivos extends TagSupport {
                         out.print("<td align='center'>" + obj_anexos[5] + "</td>");
                         out.print("<td align='center'><b>" + obj_anexos[4] + "</b><br /></td>");
                         out.print("<td align='center'>");
-                        out.print("<a href='cc?opc=1&id_add_anexo=" + id_add_anexo + "&id_m_anexo=" + obj_anexos[0] + "&Flt_Id_proceso=" + filtro + "&nombre_proceso=" + nombre_proceso + "&year=" + year + "'><i class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Anexo'><i class='fas fa-pencil-alt'></i></a>");
+                        if ((Integer) obj_anexos[6] == 1) {
+                            out.print("<button href='#' class='btn btn-secondary info btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-pencil-alt'></i></button>");
+                        } else {
+                            out.print("<a href='cc?opc=1&id_add_anexo=" + id_add_anexo + "&id_m_anexo=" + obj_anexos[0] + "&Flt_Id_proceso=" + filtro + "&nombre_proceso=" + nombre_proceso + "&year=" + year + "'><i class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Anexo'><i class='fas fa-pencil-alt'></i></a>");
+                        }
                         out.print("</td>");
                         out.print("</tr>");
                     }
@@ -744,7 +750,7 @@ public class Controlconsecutivos extends TagSupport {
                     out.print("<td align='center'>");
                     out.print("<div class='btn-container'>");
                     if (txtPermisos.contains("[40]")) {
-                        out.print("<a href='cc?opc=1&id_add_anexo=" + obj_cons[0] + "' class='btn btn-dark btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Anexar documento'><i class='fas fa-paperclip'></i></a>");
+                        out.print("<button type='button' onclick=\"javascript:location.href='cc?opc=1&id_add_anexo=" + obj_cons[0] + "'\" class='btn btn-dark btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Anexar documento'><i class='fas fa-paperclip'></i></button>");
                     } else {
                         out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-paperclip'></i></button>");
                     }
@@ -773,7 +779,7 @@ public class Controlconsecutivos extends TagSupport {
                         String loteee = obj_cons[3].toString().replace("-", "_");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[39]")) {
-                            out.print("<a href='#' onclick='EnlaceFormulas(\"" + loteee + "\")' class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Enlace'><i class='fas fa-external-link-alt'></i></a>");
+                            out.print("<button type='button' onclick='EnlaceFormulas(\"" + loteee + "\")' class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Enlace'><i class='fas fa-external-link-alt'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-external-link-alt'></i></button>");
                         }
@@ -781,7 +787,7 @@ public class Controlconsecutivos extends TagSupport {
                     } else {
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[39]")) {
-                            out.print("<a href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Este lote no existe en el App control formulas'><i class='fas fa-external-link-alt'></i></a>");
+                            out.print("<button type='button' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Este lote no existe en el App control formulas'><i class='fas fa-external-link-alt'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-external-link-alt'></i></button>");
                         }
@@ -794,7 +800,7 @@ public class Controlconsecutivos extends TagSupport {
                             if (obj_cons[8].equals(0)) {
                                 out.print("<td align='center'>");
                                 if (txtPermisos.contains("[37]")) {
-                                    out.print("<a href='cc?opc=1&id_ctrcons=" + obj_cons[0] + "&Flt_Id_proceso=" + filtro + "&Nombre_proceso=" + nombre_proceso + "&year=" + year + "' class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Consecutivo'><i class='fas fa-pencil-alt'></i></a>");
+                                    out.print("<button type='button' onclick=\"javascript:location.href='cc?opc=1&id_ctrcons=" + obj_cons[0] + "&Flt_Id_proceso=" + filtro + "&Nombre_proceso=" + nombre_proceso + "&year=" + year + "'\" class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Consecutivo'><i class='fas fa-pencil-alt'></i></button>");
                                 } else {
                                     out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-pencil-alt'></i></button>");
                                 }
@@ -802,7 +808,7 @@ public class Controlconsecutivos extends TagSupport {
                             } else {
                                 out.print("<td align='center'>");
                                 if (txtPermisos.contains("[37]")) {
-                                    out.print("<a href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top'><i class='fas fa-pencil-alt'></i></a>");
+                                    out.print("<button href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top'><i class='fas fa-pencil-alt'></i></button>");
                                 } else {
                                     out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-pencil-alt'></i></button>");
                                 }
@@ -816,7 +822,7 @@ public class Controlconsecutivos extends TagSupport {
                         if (Integer.parseInt(obj_cons[8].toString()) != 0) {
                             out.print("<td align='center'>");
                             if (txtPermisos.contains("[38]")) {
-                                out.print("<a href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Registro Finalizado'><i class='fas fa-lock'></i></a>");
+                                out.print("<button href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Registro Finalizado'><i class='fas fa-lock'></i></button>");
                             } else {
                                 out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-lock'></i></button>");
                             }
@@ -824,7 +830,7 @@ public class Controlconsecutivos extends TagSupport {
                         } else {
                             out.print("<td align='center'>");
                             if (txtPermisos.contains("[38]")) {
-                                out.print("<a href='#' onclick='FinalizarLote(" + obj_cons[0] + "," + filtro + "," + year + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Finalizar Lote'><i class='fas fa-check'></i></a>");
+                                out.print("<button type='button' onclick='FinalizarLote(" + obj_cons[0] + "," + filtro + "," + year + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Finalizar Lote'><i class='fas fa-check'></i></type='button'>");
                             } else {
                                 out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-check'></i></button>");
                             }
@@ -835,7 +841,7 @@ public class Controlconsecutivos extends TagSupport {
                     //<editor-fold defaultstate="collapsed" desc="ELIMINAR">
                     if (txtPermisos.contains("[88]")) {
                         out.print("<td align='center'>");
-                        out.print("<a onclick='EliminarRegistro(" + obj_cons[0] + ")' class='btn btn-danger btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Eliminar registro'><i class='far fa-trash-alt fa-size_small text-white'></i></a>");
+                        out.print("<button type='button' onclick='EliminarRegistro(" + obj_cons[0] + ")' class='btn btn-danger btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Eliminar registro'><i class='far fa-trash-alt fa-size_small text-white'></i></button>");
                         out.print("</td>");
                     }
 //</editor-fold>

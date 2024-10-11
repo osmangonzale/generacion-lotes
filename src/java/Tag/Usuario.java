@@ -84,21 +84,21 @@ public class Usuario extends TagSupport {
                         out.print("<td>" + obj_usuarios[8] + "</td>");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[3]")) {
-                            out.print("<a href='#' onclick='DesactivarUsuario(" + obj_usuarios[0] + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Desactivar Usuario'><i class='fas fa-check'></i></a>");
+                            out.print("<button type='button' onclick='DesactivarUsuario(" + obj_usuarios[0] + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Desactivar Usuario'><i class='fas fa-check'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-check'></i></i></button>");
                         }
                         out.print("</td>");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[2]")) {
-                            out.print("<a href='Usuario?opc=1&Id_usuario=" + obj_usuarios[0] + "' class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Usuario'><i class='fas fa-pencil-alt'></i></a>");
+                            out.print("<button type='button' onclick=\"javascript:location.href='Usuario?opc=1&Id_usuario=" + obj_usuarios[0] + "'\" class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Usuario'><i class='fas fa-pencil-alt'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-pencil-alt'></i></i></button>");
                         }
                         out.print("</td>");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[4]")) {
-                            out.print("<a href='#' onclick='RestablecerPassword(" + obj_usuarios[0] + ")' class='btn btn-warning btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Restablecer Password'><i class='fas fa-key'></i></a>");
+                            out.print("<button type='button' onclick='RestablecerPassword(" + obj_usuarios[0] + ")' class='btn btn-warning btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Restablecer Password'><i class='fas fa-key'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-key'></i></i></button>");
                         }
@@ -113,7 +113,7 @@ public class Usuario extends TagSupport {
                         out.print("<td>" + obj_usuarios[8] + "</td>");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[91]")) {
-                            out.print("<a href='#' onclick='ActivarUsuario(" + obj_usuarios[0] + ")' class='btn btn-danger btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Activar Usuario'><i class='fas fa-times'></i></a>");
+                            out.print("<button type='button' onclick='ActivarUsuario(" + obj_usuarios[0] + ")' class='btn btn-danger btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Activar Usuario'><i class='fas fa-times'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-times'></i></button>");
                         }

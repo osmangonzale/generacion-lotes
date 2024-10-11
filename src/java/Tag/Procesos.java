@@ -86,14 +86,14 @@ public class Procesos extends TagSupport {
                         out.print("<td>" + obj_procesos[7] + "</td>");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[7]")) {
-                            out.print("<a href='#' onclick='DesactivarProceso(" + obj_procesos[0] + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Desactivar Proceso'><i class='fas fa-check'></i></a>");
+                            out.print("<button type='button' onclick='DesactivarProceso(" + obj_procesos[0] + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Desactivar Proceso'><i class='fas fa-check'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-check'></i></button>");
                         }
                         out.print("</td>");
                         out.print("<td align='center'>");
                         if (txtPermisos.contains("[6]")) {
-                            out.print("<a href='Procesos?opc=1&Id_proceso=" + obj_procesos[0] + "' class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Proceso'><i class='fas fa-pencil-alt'></i></a>");
+                            out.print("<button type='button' onclick=\"javascript:location.href='Procesos?opc=1&Id_proceso=" + obj_procesos[0] + "'\" class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Proceso'><i class='fas fa-pencil-alt'></i></button>");
                         } else {
                             out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-pencil-alt'></i></button>");
                         }

@@ -489,11 +489,11 @@ public class Inyeccion extends TagSupport {
                         if (txtPermisos.contains("[30]")) {
                             if (Integer.parseInt(obj_iny[12].toString()) == 0) {
                                 out.print("<td align='center'>");
-                                out.print("<a href='#' onclick='FinalizarInyeccion(" + obj_iny[0] + "," + filtro + ",\"" + nombre_proceso + "\"," + obj_iny[12] + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Finalizar Lote'><i class='fas fa-check'></i></a>");
+                                out.print("<button type='button' onclick='FinalizarInyeccion(" + obj_iny[0] + "," + filtro + ",\"" + nombre_proceso + "\"," + obj_iny[12] + ")' class='btn btn-success btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Finalizar Lote'><i class='fas fa-check'></i></button>");
                                 out.print("</td>");
                             } else {
                                 out.print("<td align='center'>");
-                                out.print("<a href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Registro Finalizado'><i class='fas fa-lock'></i></a>");
+                                out.print("<button href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Registro Finalizado'><i class='fas fa-lock'></i></button>");
                                 out.print("</td>");
                             }
                         } else {
@@ -508,11 +508,11 @@ public class Inyeccion extends TagSupport {
                             if (txtPermisos.contains("[29]")) {
                                 if (Integer.parseInt(obj_iny[12].toString()) == 0) {
                                     out.print("<td align='center'>");
-                                    out.print("<a href='in?opc=1&id_iny_m=" + obj_iny[0] + "&Flt_Id_proceso=" + filtro + "&Nombre_proceso=" + nombre_proceso + "&year=" + year + "'><i class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Inyeccion'><i class='fas fa-pencil-alt'></i></a>");
+                                    out.print("<button type='button' onclick=\"javascript:location.href='in?opc=1&id_iny_m=" + obj_iny[0] + "&Flt_Id_proceso=" + filtro + "&Nombre_proceso=" + nombre_proceso + "&year=" + year + "'\" class='btn btn-primary btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Inyeccion'><i class='fas fa-pencil-alt'></i></button>");
                                     out.print("</td>");
                                 } else {
                                     out.print("<td align='center'>");
-                                    out.print("<a href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Registro Finalizado'><i class='fas fa-pencil-alt'></i></a>");
+                                    out.print("<button href='#' class='btn btn-secondary btn-sm btn-icon' style='cursor: not-allowed;' data-toggle='tooltip' data-placement='top' title='Registro Finalizado'><i class='fas fa-pencil-alt'></i></button>");
                                     out.print("</td>");
                                 }
                             } else {
@@ -527,7 +527,7 @@ public class Inyeccion extends TagSupport {
                     //<editor-fold defaultstate="collapsed" desc="ELIMINAR">
                     if (txtPermisos.contains("[89]")) {
                         out.print("<td align='center'>");
-                        out.print("<a onclick='EliminarRegistro(" + obj_iny[0] + ")' class='btn btn-danger btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Eliminar registro'><i class='far fa-trash-alt fa-size_small text-white'></i></a>");
+                        out.print("<button type='button' onclick='EliminarRegistro(" + obj_iny[0] + ")' class='btn btn-danger btn-sm btn-icon' data-toggle='tooltip' data-placement='top' title='Eliminar registro'><i class='far fa-trash-alt fa-size_small text-white'></i></button>");
                         out.print("</td>");
                     }
                 }
@@ -738,8 +738,7 @@ public class Inyeccion extends TagSupport {
                     out.print("<div class='cont_form_user'>");
                     out.print("<form action='in?opc=2&id_iny=" + id_iny_m + "&Flt_Id_proceso=" + filtro + "&Nombre_proceso=" + nombre_proceso + "&year=" + year + "' id='form' method='post' class='needs-validation' novalidate=''>");
 
-                    out.print("<div class='col-lg-6 col-md-6' style='display: flex;'>");
-                    out.print("<div class='col-12'>");
+                    out.print("<div class='col-12' style='width: 94%; margin-left: 14px;'>");
                     out.print("<input type='text' class='form-control' name='' placeholder='Referencia Producto' value='" + obj_iny[17] + "' required='' data-toggle='tooltip' data-placement='top' title='Referencia Producto' disabled='disabled'>");
                     out.print("<input type='hidden' name='conin'  value='" + obj_iny[1] + "'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
@@ -749,63 +748,26 @@ public class Inyeccion extends TagSupport {
                     String[] jj = lote_p.split("-");
                     String lote1 = jj[0];
                     String lote2 = jj[1];
-
+                    
+                    out.print("<div class='col-lg-6 col-md-6' style='display: flex; align-items: baseline;'>");
                     out.print("<div class='col-12'>");
-                    out.print("<input type='text' class='form-control' name='lote_1' placeholder='lote 1' value=" + lote1 + " onchange='javascript:this.value=this.value.toUpperCase();' required='' data-toggle='tooltip' data-placement='top' title='lote 1'>");
+                    out.print("<input type='text' class='form-control' name='lote_1' placeholder='Lote P (Codigo)' value=" + lote1 + " onchange='javascript:this.value=this.value.toUpperCase();' required='' data-toggle='tooltip' data-placement='top' title='Lote P (Codigo)'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
-                    out.print("</div>");
-
-                    out.print("<div class='col-lg-6 col-md-6' style='display: flex;'>");
-                    out.print("<div class='col-12'>");
-                    out.print("<input type='text' class='form-control' name='lote_2' placeholder='lote 2' value=" + lote2 + " onchange='javascript:this.value=this.value.toUpperCase();' required='' data-toggle='tooltip' data-placement='top' title='lote 2'>");
-                    out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
+                    
+                    out.print("<div style='margin-left: 6px;'>");
+                    out.print("<i class='fas fa-minus'></i>");
                     out.print("</div>");
 
                     out.print("<div class='col-12'>");
-                    out.print("<input type='text' class='form-control' name='' placeholder='Lote C anterior:' value='" + obj_iny[2] + "' required='' data-toggle='tooltip' data-placement='top' title='Lote C anterior' disabled='disabled'>");
+                    out.print("<input type='text' class='form-control' name='lote_2' placeholder='Lote P (Terminacion Lote)' value=" + lote2 + " style='margin-left: -5px;' onchange='javascript:this.value=this.value.toUpperCase();' required='' data-toggle='tooltip' data-placement='top' title='Lote P (Terminacion Lote)'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
                     out.print("</div>");
-
-//                    if (obj_iny != null && obj_iny.length > 3) {
-//                        System.out.println("Tamaño de obj_iny: " + obj_iny.length);
-//                        out.print("<div class='col-lg-6 col-md-6' style='display: flex;'>");
-//                        out.print("<div class='col-lg-12' style='margin-top:2.9%; margin-left:3%; margin-right:-3%;'>");
-//                        out.print("<select class='select2' name='lote_c' id='txtlotec' class='form-control' data-toggle='tooltip' data-placement='top' title='lote c'>");
-//                        out.print("<option value='" + obj_iny[2] + "'>" + obj_iny[2].toString() + "</option>");
-//
-//                        lst_lotesC = jpainyeccion.Lotesciny(filtro);
-//
-//                        if (lst_lotesC != null && !lst_lotesC.isEmpty()) {
-//                            System.out.println("Tamaño de lst_lotesC: " + lst_lotesC.size());
-//                            for (int x = 0; x < lst_lotesC.size(); x++) {
-//                                Object[] lotesC = (Object[]) lst_lotesC.get(x);
-//                                if (lotesC != null && lotesC.length > 4) {
-//                                    System.out.println("Tamaño de lotesC[" + x + "]: " + lotesC.length);
-//                                    out.print("<option value='" + lotesC[2] + " / " + lotesC[0] + "'>" + lotesC[2] + "/" + lotesC[0] + " - " + lotesC[1] + " " + lotesC[4] + "</option>");
-//                                } else {
-//                                    System.out.println("Datos incompletos en lotesC[" + x + "]");
-//                                    out.print("<option value='0'>Datos incompletos en lotesC</option>");
-//                                }
-//                            }
-//                        } else {
-//                            System.out.println("lst_lotesC es nulo o vacío");
-//                            out.print("<option value='0'>Se ha producido un error</option>");
-//                        }
-//                        out.print("</select>");
-//                        out.print("</div>");
-//                    } else {
-//                        System.out.println("Datos incompletos en obj_iny");
-//                        out.print("<div class='col-lg-6 col-md-6' style='display: flex;'>");
-//                        out.print("<div class='col-lg-12' style='margin-top:2.9%; margin-left:3%; margin-right:-3%;'>");
-//                        out.print("<select class='select2' name='lote_c' id='txtlotec' class='form-control' data-toggle='tooltip' data-placement='top' title='lote c'>");
-//                        out.print("<option value='0'>Datos incompletos en obj_iny</option>");
-//                    }
 
                     out.print("<div class='col-lg-6 col-md-6' style='display: flex;'>");
                     out.print("<div class='col-lg-12' style='margin-top:2.9%; margin-left:3%; margin-right:-3%;'>");
-                    out.print("<select class='select2' name='lote_c' id='txtlotec' class='form-control' data-toggle='tooltip' data-placemente='top' title='lote c'>");
+                    out.print("<select class='select2 form-control' name='lote_c' id='txtlotec' data-toggle='tooltip' data-placemente='top' title='lote c'>");
                     out.print("<option value='" + obj_iny[2] + "'>" + obj_iny[2].toString() + "</option>");
                     lst_lotesC = jpainyeccion.Lotesciny(filtro);
                     if (lst_lotesC != null || lst_lotesC.size() != 0) {
@@ -819,8 +781,8 @@ public class Inyeccion extends TagSupport {
                     out.print("</select>");
                     out.print("</div>");
                     
-                    out.print("<div class='col-12' style='margin-top: 3px;'>");
-                    out.print("<input type='number' class='form-control' name='linea' id='' placeholder='Modulo/Linea' value='" + obj_iny[7] + "' required data-toggle='tooltip' data-placemente='top' title='Modulo/Linea' min='1'>");
+                    out.print("<div class='col-12'>");
+                    out.print("<input type='text' class='form-control' name='' placeholder='Lote C anterior:' value='" + obj_iny[2] + "' required='' data-toggle='tooltip' data-placement='top' title='Lote C anterior' disabled='disabled'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
                     out.print("</div>");
@@ -830,8 +792,14 @@ public class Inyeccion extends TagSupport {
                     out.print("<input type='date' class='form-control' name='fecha' id='datepicker' placeholder='Fecha' value='" + obj_iny[5] + "' required data-toggle='tooltip' data-placemente='top' title='Fecha'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
+                    
+                    out.print("<div class='col-12'>");
+                    out.print("<input type='number' class='form-control' name='linea' id='' placeholder='Modulo/Linea' value='" + obj_iny[7] + "' required data-toggle='tooltip' data-placemente='top' title='Modulo/Linea' min='1'>");
+                    out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
+                    out.print("</div>");
+                    out.print("</div>");
 
-                    out.print("<div class='col-12' style='margin-top:2.5%; margin-left:2.7%; width:94%;'>");
+                    out.print("<div class='col-12' style='margin-top: 1.5%; margin-left:2.7%; width:94%;'>");
                     out.print("<textarea type='text' class='form-control' name='obs' id='' placeholder='Observacion' required data-toggle='tooltip' data-placemente='top' title='Observacion'>" + obj_iny[6] + "</textarea>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
@@ -907,14 +875,18 @@ public class Inyeccion extends TagSupport {
                     out.print("</div>");
                     out.print("</div>");
 
-                    out.print("<div class='col-lg-6 col-md-6' style='display: flex;'>");
+                    out.print("<div class='col-lg-6 col-md-6' style='display: flex; align-items: baseline;'>");
                     out.print("<div class='col-12'>");
-                    out.print("<input type='text' class='form-control' name='lote_1' id='lote_1' placeholder='Lote P' nchange='javascript:this.value=this.value.toUpperCase();' required data-toggle='tooltip' data-placemente='top' title='lote 1'>");
+                    out.print("<input type='text' class='form-control' name='lote_1' id='lote_1' placeholder='Lote P (Codigo)' nchange='javascript:this.value=this.value.toUpperCase();' required data-toggle='tooltip' data-placemente='top' title='Lote P (Codigo)'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
+                    out.print("</div>");
+                    
+                    out.print("<div style='margin-left: 6px;'>");
+                    out.print("<i class='fas fa-minus'></i>");
                     out.print("</div>");
 
                     out.print("<div class='col-12'>");
-                    out.print("<input type='text' class='form-control' name='lote_2' id='lote_2' placeholder='Lote P' onchange='javascript:this.value=this.value.toUpperCase();' required data-toggle='tooltip' data-placemente='top' title='lote 2'>");
+                    out.print("<input type='text' class='form-control' name='lote_2' id='lote_2' placeholder='Lote P (Terminacion Lote)' style='margin-left: -5px;' onchange='javascript:this.value=this.value.toUpperCase();' required data-toggle='tooltip' data-placemente='top' title='Lote P (Terminacion Lote)'>");
                     out.print("<div class='invalid-feedback invalid_data_rll'><i class='fas fa-exclamation-circle'></i>&nbsp;&nbsp;Debe ingresar un valor!</div>");
                     out.print("</div>");
                     out.print("</div>");
@@ -922,8 +894,8 @@ public class Inyeccion extends TagSupport {
                     lst_lotesC = jpainyeccion.Lotesciny(filtro);
                     if (lst_lotesC != null) {
                         out.print("<div class='col-12' style='margin-top:1%; margin-left:2.6%; margin-bottom:1%; width:94.3%'>");
-                        out.print("<select class='select2' autocomplete='off' type='text' name='lote_c' class='form-control' placeholder='Seleccionar Control .....' onchange='LoteC_autocompletar(this.value);validar_boton()' onkeyup='validar_boton()' list='datalist'>");
-                        out.print("<option value='empty'>Seleccionar Control ...</option>");
+                        out.print("<select class='select2 form-control' autocomplete='off' type='text' name='lote_c' placeholder='Seleccionar Control ...(Lote C)' onchange='LoteC_autocompletar(this.value);validar_boton()' onkeyup='validar_boton()' list='datalist'>");
+                        out.print("<option value='empty'>Seleccionar Control ...(Lote C)</option>");
                         for (int x = 0; x < lst_lotesC.size(); x++) {
                             Object[] lotesC = (Object[]) lst_lotesC.get(x);
                             out.print("<option value='" + lotesC[2] + " / " + lotesC[0] + "'>" + lotesC[2] + "/" + lotesC[0] + " - " + lotesC[1] + " " + lotesC[4] + "</option>");

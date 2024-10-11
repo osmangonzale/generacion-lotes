@@ -31,9 +31,10 @@ public class Sesion extends HttpServlet {
             int bienvenido = 1;
             int opc = Integer.parseInt(request.getParameter("opc").toString());
             int id_usuario = 0;
-            String user, password, password_encript;
+            String user, password, password_encript = null;
             List lst_usuario = null;
             boolean result = false;
+            int intentos_maximos = 3;
 //</editor-fold>
             switch (opc) {
                 //<editor-fold defaultstate="collapsed" desc="CASO 1 ATRIBUTOS">
@@ -116,6 +117,7 @@ public class Sesion extends HttpServlet {
             out.print(ex);
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -154,6 +156,7 @@ public class Sesion extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
     private static class Orden {
 
         public Orden() {

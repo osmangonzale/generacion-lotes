@@ -1,7 +1,6 @@
 package Servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ public class Download extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String global_rute = getServletContext().getRealPath("//Interfaz//Contenido//Documentos//");
+            String global_rute = "\\\\172.16.5.99\\c$\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\Generacion_Lotes\\UserFiles\\File\\";
             String FileName = request.getParameter("File_name").toString();
             File file = new File(global_rute, FileName);
             if (file.exists()) {
@@ -42,6 +41,7 @@ public class Download extends HttpServlet {
         } finally {
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

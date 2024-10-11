@@ -325,6 +325,7 @@ public class In extends HttpServlet {
                     request.setAttribute("Modulo", tipo);
                     request.setAttribute("Flt_Id_proceso", proceso);
                     request.setAttribute("year", year);
+                    request.setAttribute("Id_rol", UserRol);
                     request.getRequestDispatcher("Inyeccion.jsp").forward(request, response);
                     break;
 //</editor-fold>

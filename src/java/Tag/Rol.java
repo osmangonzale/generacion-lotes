@@ -249,18 +249,18 @@ public class Rol extends TagSupport {
                     out.print("<td>" + obj_rol[1] + "</td>");
                     estado = Integer.parseInt(obj_rol[3].toString());
                     out.print("<td class=\"text-center\">" + ((estado == 1) ? "<div class='badge badge-success'>Activo</div>" : "<div class='badge badge-danger'>Inactivo</div>") + "</td>");
-                    
+
                     out.print("<td class=\"text-center\">");
                     if (txtPermisos.contains("[14]")) {
-                        out.print("<a href='Rol?opc=1&id_rol_permission=" + obj_rol[0] + "' class='btn btn-sm btn-info btn-icon' data-toggle='tooltip' data-placement='top' title='Asignar permisos'><i class='fas fa-shield-alt'></i></a>");
+                        out.print("<button type='button' onclick=\"javascript:location.href='Rol?opc=1&id_rol_permission=" + obj_rol[0] + "'\" class='btn btn-sm btn-info btn-icon' data-toggle='tooltip' data-placement='top' title='Asignar permisos'><i class='fas fa-shield-alt'></i></button>");
                     } else {
                         out.print("<a href='#' style='background: #00c396; opacity: 0.5;' class='btn btn-permission btn-icon' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-shield-alt'></i></a>");
                     }
                     out.print("</td>");
-                    
+
                     out.print("<td class=\"text-center\">");
                     if (txtPermisos.contains("[12]")) {
-                        out.print("<a href='Rol?opc=1&id_rol=" + obj_rol[0] + "' class='btn btn-sm btn-warning btn-icon' data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-pencil-alt'></i></a>");
+                        out.print("<button type='button' onclick=\"javascript:location.href='Rol?opc=1&id_rol=" + obj_rol[0] + "'\" class='btn btn-sm btn-warning btn-icon' data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-pencil-alt'></i></button>");
                     } else {
                         out.print("<a href='#' style='background: orange;opacity: 0.5;' class='btn btn-warning btn-icon' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-edit'></i></a> &nbsp;&nbsp;");
                     }
@@ -268,12 +268,12 @@ public class Rol extends TagSupport {
 
                     out.print("<td class=\"text-center\">");
                     if (txtPermisos.contains("[13]")) {
-                        out.print("<a href='Rol?opc=2&id_rol=" + obj_rol[0] + "&estado=" + estado + "' class='btn btn-sm btn-" + ((estado == 1) ? "success" : "danger") + "' data-toggle='tooltip' data-placement='top' title='Cambiar estado'><i class='" + ((estado == 1) ? "fas fa-check" : "fas fa-times") + "'></i></a>");
+                        out.print("<button type='button' onclick=\"javascript:location.href='Rol?opc=2&id_rol=" + obj_rol[0] + "&estado=" + estado + "'\" class='btn btn-sm btn-" + ((estado == 1) ? "success" : "danger") + "' data-toggle='tooltip' data-placement='top' title='Cambiar estado'><i class='" + ((estado == 1) ? "fas fa-check" : "fas fa-times") + "'></i></button>");
                     } else {
                         out.print("<a style='opacity: 0.5;' href='#' class='btn btn-" + ((estado == 1) ? "success" : "danger") + "' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='" + ((estado == 1) ? "fas fa-check-circle" : "fas fa-times-circle") + "'></i></a>");
                     }
                     out.print("</td>");
-                    
+
                     out.print("</tr>");
                 }
             }

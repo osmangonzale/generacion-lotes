@@ -1,0 +1,47 @@
+.swal2-custom-popup {
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    width: 450px; /* Ancho de la alerta */
+    height: auto; /* Altura automática */
+    padding: 20px; /* Espacio interior */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.swal2-custom-icon {
+    font-size: 30px; /* Tamaño más pequeño del icono */
+    color: #e74c3c; /* Color del icono */
+    margin-bottom: 10px; /* Espacio debajo del icono */
+}
+
+.swal2-custom-title {
+    font-size: 18px; /* Tamaño del título */
+    color: #333;
+    margin: 0;
+}
+
+.swal2-custom-content {
+    display: flex;
+    align-items: center; /* Centra verticalmente el icono y el texto */
+    justify-content: center; /* Centra horizontalmente */
+    flex-direction: column; /* Organiza en columna icono y texto */
+}
+
+.swal2-html-container {
+    font-size: 14px; /* Tamaño del texto del contenido */
+    color: #555;
+}
+
+.swal2-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 100px; /* Ubica la alerta centrada y más arriba */
+}
+
+.swal2-title {
+    margin-bottom: 0; /* Quita el espacio entre el título y el contenido */
+}
+
+
+

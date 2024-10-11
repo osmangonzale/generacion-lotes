@@ -37,7 +37,7 @@ public class RecepcionMaterialJpaController implements Serializable {
             return null;
         }
     }
-    
+
     public List Lista_recepcion_responsable(String rol_usuario) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -56,7 +56,26 @@ public class RecepcionMaterialJpaController implements Serializable {
             return null;
         }
     }
-    
+
+    public List filtro_general(String parametro) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query q = etm.createNativeQuery("CALL `FiltrarRecepcionMaterial`('" + parametro + "')");
+            List consulta = q.getResultList();
+            etm.getTransaction().commit();
+            etm.clear();
+            etm.close();
+            if (consulta.isEmpty()) {
+                return null;
+            } else {
+                return consulta;
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     public List recepciones_5dias() {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -75,7 +94,7 @@ public class RecepcionMaterialJpaController implements Serializable {
             return null;
         }
     }
-    
+
     public List mas_referencias_30_dias() {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -151,7 +170,7 @@ public class RecepcionMaterialJpaController implements Serializable {
             return null;
         }
     }
-    
+
     public List traer_recepcion_id(int id_registro) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -170,7 +189,7 @@ public class RecepcionMaterialJpaController implements Serializable {
             return null;
         }
     }
-    
+
     public List Lista_Recepcion(int idRegsitro) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -227,7 +246,26 @@ public class RecepcionMaterialJpaController implements Serializable {
             return null;
         }
     }
-    
+
+    public List Consulta_anexo_union(int id_rgt, String registro) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query q = etm.createNativeQuery("CALL `sp_c_anexos_union`('" + id_rgt + "', '" + registro + "')");
+            List consulta = q.getResultList();
+            etm.getTransaction().commit();
+            etm.clear();
+            etm.close();
+            if (consulta.isEmpty()) {
+                return consulta;
+            } else {
+                return consulta;
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     public List Consulta_anexo_id_new(int id_anexo) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -405,6 +443,31 @@ public class RecepcionMaterialJpaController implements Serializable {
         }
     }
 
+    public List Lista_ref_Proveedores(String codigo) {
+        EntityManager etm = getEntityManager();
+        etm.getTransaction().begin();
+        try {
+            Query q = etm.createNativeQuery("CALL `sp_c_ref_proveedor`('" + codigo + "')");
+            List consulta = q.getResultList();
+            etm.getTransaction().commit();
+            etm.clear();
+            etm.close();
+
+            for (Object result : consulta) {
+                System.out.println("Resultado del query: " + Arrays.toString((Object[]) result));
+            }
+
+            if (consulta.isEmpty()) {
+                return null;
+            } else {
+                return consulta;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     public List Lista_unidad_medida() {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
@@ -548,7 +611,7 @@ public class RecepcionMaterialJpaController implements Serializable {
         }
     }
 
-    public boolean ActualizarFirma(int atributo, int idRegistro, String sesion, int estado4) {
+    public boolean ActualizarFirma(int atributo, int idRegistro, String sesion, int estado4, int count) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
         try {
@@ -556,13 +619,19 @@ public class RecepcionMaterialJpaController implements Serializable {
             switch (atributo) {
                 case 1:
                     queryFirma += "firma_verifica = '" + sesion + "'";
+                    if (count == 2) {
+                        queryFirma += ", estado_recepcion = " + estado4;
+                    }
                     break;
                 case 2:
                     queryFirma += "firma_ja = '" + sesion + "'";
+                    if (count == 2) {
+                        queryFirma += ", estado_recepcion = " + estado4;
+                    }
                     break;
                 case 3:
                     queryFirma += "firma_dc = '" + sesion + "'";
-                    if (estado4 != 0) {
+                    if (count == 2) {
                         queryFirma += ", estado_recepcion = " + estado4;
                     }
                     break;
@@ -696,46 +765,26 @@ public class RecepcionMaterialJpaController implements Serializable {
             return false;
         }
     }
-
+    
     public boolean Modificar_firma_masivo(String firma, String ids_recepcion) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();
         try {
-            String masivo = ids_recepcion.replace("][", ",").replace("[", "").replace("]", "");
-            String columna;
-//            if (firma.contains("Calidad_despachos")) {
-            if (firma.contains("Calidad_despachos") || firma.contains("Administrador")) {
-                columna = "firma_verifica";
-            } else if (firma.contains("Jefe_almacen") || firma.contains("Administrador")) {
-                columna = "firma_ja";
-            } else if (firma.contains("Jefe aseguramiento calidad") || firma.contains("Administrador")) {
-                columna = "firma_dc";
-            } else {
-                etm.getTransaction().rollback();
-                etm.clear();
-                etm.close();
-                return false;
-            }
-
-            String query = "UPDATE recepcion_material rm \n"
-                    + "SET rm." + columna + " = '" + firma + "' \n"
-                    + "WHERE rm.id_recepcion_material IN (" + masivo + ")";
-
-            Query q = etm.createNativeQuery(query);
-            q.setParameter("firma", firma);
+            Query q = etm.createNativeQuery("CALL `ModificarFirmaMasivo`('" + firma + "', '" + ids_recepcion + "')");
             int exitoso = q.executeUpdate();
             etm.getTransaction().commit();
             etm.clear();
             etm.close();
-            return exitoso > 0;
+            if (exitoso == 0) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception ex) {
-            etm.getTransaction().rollback();
-            etm.clear();
-            etm.close();
             return false;
         }
     }
-    
+
     public boolean EliminarRegistro(int idRegistro) {
         EntityManager etm = getEntityManager();
         etm.getTransaction().begin();

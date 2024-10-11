@@ -5,6 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="Interfaz/Contenido/assets/css/login.css">
+        <link rel="stylesheet" href="Interfaz/Contenido/assets/css/alerta_bloqueo.css">
         <link rel="stylesheet" href="Interfaz/Contenido/assets/modules/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="Interfaz/Contenido/assets/modules/fontawesome/css/all.min.css">
         <link rel="shortcut icon" href="Interfaz/Contenido/images/favicon.ico" type="image/x-icon" />
@@ -35,7 +36,7 @@
                         <i class="fas fa-question"></i>
                     </div>
                     <h1>GENERACION DE LOTES</h1><br>
-                    <form action="Sesion?opc=1" method="post" autocomplete="off">
+                    <form action="Sesion?opc=1" method="post" autocomplete="off" onsubmit="return validarFormulario()">
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -54,11 +55,34 @@
                                     </div>
                                 </div>
                                 <input type="password" class="form-control" name="Txt_password" id="txtPassword" placeholder="Contraseña" autocomplete="off">
-                                <div class="input-group-text" onclick="mostrarPass()" id="show_password" style="cursor: pointer;"><i id="icon" class="fas fa-eye"></i></div>
+                                <div class="input-group-text" onclick="mostrarPass()" id="show_password" style="cursor: pointer;">
+                                    <i id="icon" class="fas fa-eye"></i>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn" style="margin-top: 25px; box-shadow: 1px 2px 5px 0px #959595;"><i class="fas fa-sign-in-alt"></i></button><br>
+                        <button type="submit" class="btn" style="margin-top: 25px; box-shadow: 1px 2px 5px 0px #959595;">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button><br>
                     </form>
+
+<!--                    <script type='text/javascript'>
+                        function validarFormulario() {
+                            var usuario = document.getElementById('Txt_user').value;
+                            var contraseña = document.getElementById('txtPassword').value;
+
+                            if (usuario === "" || contraseña === "") {
+                                iziToast.show({
+                                    title: 'Error',
+                                    message: 'Por favor, complete ambos campos antes de enviar el formulario.',
+                                    position: 'bottomRight',
+                                    icon: 'fas fa-exclamation-triangle',
+                                    color: 'red'
+                                });
+                                return false;
+                            }
+                            return true;
+                        }
+                    </script>-->
                     <div style="float: right; bottom: 0;"><b style="font-size:15px; color:#03291d; ">VA</b><b style="font-size: 15px; color:#03291d"> 08.27.13</b><br></div>
                     <div><p class="text-center" style="margin-left: 73px">© PLASTITEC.</p></div>
                 </div>
@@ -122,5 +146,6 @@
         <%
             }
         %>
+        <script src="Interfaz/Contenido/assets/js/Sweetalert2.js"></script>
     </body>
 </html>

@@ -188,7 +188,7 @@ public class Permisos extends TagSupport {
 
                     out.print("<td align='center'>");
                     if (txtPermisos.contains("[9]")) {
-                        out.print("<a href='Permisos?opc=1&id_permiso=" + obj_permisos[0] + "' class='btn btn-sm btn-primary btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Permiso'><i class='fas fa-pencil-alt'></i></a>");
+                        out.print("<button type='button' onclick=\"javascript:location.href='Permisos?opc=1&id_permiso=" + obj_permisos[0] + "'\" class='btn btn-sm btn-primary btn-icon' data-toggle='tooltip' data-placement='top' title='Modificar Permiso'><i class='fas fa-pencil-alt'></i></button>");
                     } else {
                         out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-pencil-alt'></i></button>");
                     }
@@ -196,7 +196,7 @@ public class Permisos extends TagSupport {
 
                     out.print("<td align='center'>");
                     if (txtPermisos.contains("[10]")) {
-                        out.print("<a href='Permisos?opc=2&id_permiso=" + obj_permisos[0] + "&estado=" + estado + "' class='btn btn-sm btn-" + ((estado == 1) ? "success" : "danger") + " btn-icon' data-toggle='tooltip' data-placement='top' title='Cambiar estado'><i class='" + ((estado == 1) ? "fas fa-check" : "fas fa-times") + "'></i></a>");
+                        out.print("<button type='button' onclick=\"javascript:location.href='Permisos?opc=2&id_permiso=" + obj_permisos[0] + "&estado=" + estado + "'\" class='btn btn-sm btn-" + ((estado == 1) ? "success" : "danger") + " btn-icon' data-toggle='tooltip' data-placement='top' title='Cambiar estado'><i class='" + ((estado == 1) ? "fas fa-check" : "fas fa-times") + "'></i></button>");
                     } else {
                         out.print("<button class='btn btn-green btn-sm' style='border-radius: 4px;opacity: 0.5;' data-toggle='tooltip' data-placement='top' title='No tiene permisos'><i class='fas fa-check'></i></i></button>");
                     }

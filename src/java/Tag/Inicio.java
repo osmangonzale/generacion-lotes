@@ -111,7 +111,7 @@ public class Inicio extends TagSupport {
 
             out.print("</ul>");
             out.print("<div class='tab-content tab-bordered' id='myTab3Content'>");
-            //<editor-fold defaultstate="collapsed" desc="CCESO DIRECTO CONSECUTIVOS">
+            //<editor-fold defaultstate="collapsed" desc="ACCESO DIRECTO CONSECUTIVOS">
             if (rol_usuario.contains("Calidad") || rol_usuario.contains("Coordinacion")) {
                 out.print("<div class='tab-pane fade' id='home2' role='tabpanel' aria-labelledby='Consecutivos'>");
                 lst_consecutivo_responsables = ctrlcons.Lista_consecutivo_responsable(rol_usuario);

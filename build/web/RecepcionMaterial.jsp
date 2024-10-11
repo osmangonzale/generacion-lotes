@@ -17,7 +17,7 @@
         <link rel="shortcut icon" href="Interfaz/Contenido/images/favicon.ico" type="image/x-icon" />
 
     </head>
-    <body>
+    <body class='sidebar-mini'>
         <div id="app">
             <div class="main-wrapper main-wrapper-1">
                 <jsp:include page="Menu.jsp"></jsp:include>
@@ -27,6 +27,128 @@
             </div>
         </div>
         <Alertas:alertas/>
+        <script type="text/javascript">
+            function validateFormR(formId) {
+                const form = document.getElementById(formId);
+                if (!form) {
+                    console.error("Formulario no encontrado:", formId);
+                    return false;
+                }
+                let valid = true;
+                const inputs = form.querySelectorAll('input[required]');
+                inputs.forEach(input => {
+                    if (input.type === 'radio') {
+                        const name = input.name;
+                        const checked = form.querySelector('input[name="' + name + '"]:checked');
+
+                        if (!checked) {
+                            valid = false;
+                        }
+                    }
+                });
+                if (!valid) {
+                    iziToast.warning({
+                        title: 'Atención',
+                        message: 'Por favor, complete todos los campos requeridos antes de enviar el formulario.',
+                        position: 'bottomRight',
+                        icon: 'fas fa-exclamation-triangle'
+                    });
+                    return false;
+                }
+                const obs12 = form.querySelector('#obs12');
+                if (obs12) {
+                    const regex = /^(N\/A|[0-9.]+)$/;
+                    if (obs12.value.trim() === '') {
+                        valid = false;
+                        iziToast.warning({
+                            title: 'Atención',
+                            message: 'El campo Valor no puede estar vacío.',
+                            position: 'bottomRight',
+                            icon: 'fas fa-exclamation-triangle'
+                        });
+                    } else if (!regex.test(obs12.value)) {
+                        valid = false;
+                        iziToast.warning({
+                            title: 'Atención',
+                            message: 'El campo Valor solo permite números y puntos.',
+                            position: 'bottomRight',
+                            icon: 'fas fa-exclamation-triangle'
+                        });
+                    }
+                }
+                if (!valid) {
+                    return false;
+                }
+                return true;
+            }
+            function cambioradioR() {
+                const radio1 = document.getElementById('radio13_1');
+                const radio2 = document.getElementById('radio13_2');
+                const obs12 = document.getElementById('obs12');
+
+                if (radio1.checked) {
+                    obs12.value = '';
+                    obs12.readOnly = false;
+                    document.getElementById('radio14_1').checked = true;
+                } else if (radio2.checked) {
+                    obs12.value = 'N/A';
+                    obs12.readOnly = true;
+                    document.getElementById('radio14_2').checked = true;
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function validateFormM(formId) {
+                const form = document.getElementById(formId);
+                if (!form) {
+                    console.error("Formulario no encontrado:", formId);
+                    return false;
+                }
+                let valid = true;
+                const obser12 = form.querySelector('#obser12');
+                if (obser12) {
+                    const regex = /^(N\/A|[0-9.]+)$/;
+                    if (obser12.value.trim() === '') {
+                        valid = false;
+                        console.log("Campo obser12 vacío");
+                        iziToast.warning({
+                            title: 'Atención',
+                            message: 'El campo Valor no puede estar vacío.',
+                            position: 'bottomRight',
+                            icon: 'fas fa-exclamation-triangle'
+                        });
+                    } else if (!regex.test(obser12.value)) {
+                        valid = false;
+                        console.log("Campo obser12 contiene caracteres no permitidos:", obser12.value);
+                        iziToast.warning({
+                            title: 'Atención',
+                            message: 'El campo Valor solo permite números y puntos.',
+                            position: 'bottomRight',
+                            icon: 'fas fa-exclamation-triangle'
+                        });
+                    }
+                }
+                if (!valid) {
+                    return false;
+                }
+                return true;
+            }
+            function cambioradioM() {
+                const radio1 = document.getElementById('radio13_1M');
+                const radio2 = document.getElementById('radio13_2M');
+                const obs12 = document.getElementById('obser12');
+
+                if (radio1.checked) {
+                    obs12.value = '';
+                    obs12.readOnly = false;
+                    document.getElementById('radio14_1M').checked = true;
+                } else if (radio2.checked) {
+                    obs12.value = 'N/A';
+                    obs12.readOnly = true;
+                    document.getElementById('radio14_2M').checked = true;
+                }
+            }
+        </script>
         <script type="text/javascript">
             function reinicializarTooltips() {
                 if (typeof $ !== 'undefined' && typeof $.fn.tooltip !== 'undefined') {
@@ -46,11 +168,44 @@
                     });
                 });
             });
-
             $(document).ready(function () {
                 $('#opciones').tooltip({placement: 'top', title: 'Opciones'});
             });
         </script>
+        <script type="text/javascript">
+            function obtenerConsecutivo() {
+                var referenciaCompleta = document.querySelector("select[name='referencia']").value;
+                var lote = document.querySelector("input[name='lote']").value;
+
+                var codigo = referenciaCompleta.split('/')[0].trim();
+
+                console.log("Código:", codigo);
+                console.log("Lote:", lote);
+
+                if (codigo !== "" && lote !== "") {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "RecepcionMaterial?opc=14", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            console.log("Estado de la solicitud:", xhr.readyState);
+
+                            if (xhr.status === 200) {
+                                console.log("Respuesta del servidor:", xhr.responseText);
+                                document.querySelector("input[name='consecutivo']").value = xhr.responseText;
+                            } else {
+                                console.log("Error en la solicitud. Código de estado:", xhr.status);
+                            }
+                        }
+                    };
+                    console.log("Datos enviados:", "codigo=" + encodeURIComponent(codigo) + "&lote=" + encodeURIComponent(lote));
+                    xhr.send("codigo=" + encodeURIComponent(codigo) + "&lote=" + encodeURIComponent(lote));
+                } else {
+                    console.log("Código o lote vacío. No se enviarán los datos.");
+                }
+            }
+        </script>
+
         <script type="text/javascript">
             function EliminarRegistro(id_registro) {
                 swal({
@@ -170,18 +325,15 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         console.log('Justificación:', result.value);
-
                         const justificacion = result.value;
                         const form = document.createElement('form');
                         form.action = 'RecepcionMaterial?opc=4&idRegistro=' + id_recepcion;
                         form.method = 'post';
-
                         const textarea = document.createElement('textarea');
                         textarea.name = 'Txt_justificacion';
                         textarea.value = justificacion;
                         textarea.style.display = 'none';
                         form.appendChild(textarea);
-
                         document.body.appendChild(form);
                         form.submit();
                     }
@@ -192,41 +344,35 @@
         </script>
         <script>
             function multiplicarCampos() {
-                var cantidad1 = parseInt(document.getElementById('cantidad1').value);
-                var cantidad2 = parseInt(document.getElementById('cantidad2').value);
-
+                var cantidad1 = parseFloat(document.getElementById('cantidad1').value) || 0;
+                var cantidad2 = parseFloat(document.getElementById('cantidad2').value) || 0;
                 var resultado = cantidad1 * cantidad2;
-
+                if (resultado % 1 === 0) {
+                    resultado = parseInt(resultado);
+                } else {
+                    resultado = resultado.toFixed(2);
+                }
                 var labelResultado = document.getElementById('labelResultado');
                 var inputResultado = document.getElementById('canres');
-
                 inputResultado.value = resultado;
                 labelResultado.textContent = 'Cantidad Total Remisionada: ' + resultado;
                 labelResultado.style.color = resultado > 0 ? 'green' : 'red';
             }
         </script>
         <script type="text/javascript">
-            function RegistrarObservacion(id_registro, observacion) {
+            function RegistrarObservacion(id_registro) {
+                var observacionElement = document.getElementById('OBS' + id_registro);
+                var observacion = observacionElement && observacionElement.value !== null && observacionElement.value !== 'null' ? observacionElement.value : 'N/A';
                 swal({
                     title: "Añadir observación",
-                    text: "<form action='RecepcionMaterial?opc=5&idRegistro=" + id_registro + "' id='FormObservacion' method='post'><center><textarea name='Txt_observacion' id='Txt_observacion' style='width:350px;height:100px' placeholder='Observaciones' required onfocus>" + observacion + "</textarea></center></form><button type='submit' form='FormObservacion'>Guardar</button><a href='RecepcionMaterial?opc=1' id='formVolver' method='post'><button type='submit' required  form='formVolver'>Volver</button></a>",
+                    text: "<form action='RecepcionMaterial?opc=5&idRegistro=" + id_registro + "' id='FormObservacion' method='post'><center><textarea name='Txt_observacion' style='width:350px;height:100px' placeholder='Observaciones' required onfocus>" + observacion + "</textarea></center></form><button type='submit' form='FormObservacion'>Guardar</button><a href='#' id='formVolver' method='post'><button type='submit' required form='formVolver'>Volver</button></a>",
                     type: "warning",
                     showConfirmButton: false,
                     html: true,
                 });
             }
+
         </script>
-        <!--        <script type="text/javascript">
-                    function PrestamoRecepcion(id_recepcion, unidad) {
-                        swal({
-                            title: "Prestamo Recepción",
-                            text: "<form action='RecepcionMaterial?opc=6&idRegistro=" + id_recepcion + "&und=" + unidad + "' id='FormPrestamo' method='post'><center><input type='number' required style='display:block;width: 350px;background: #fff;border: 1px solid #34ace0;padding: 5px;margin-bottom: 10px;font-size: 14px;color: #34495e;border-radius: 11px;' name='Txt_cantidad' placeholder='Cantidad dada en " + unidad + "' /><textarea name='Txt_justificacion' id='Txt_justificacion' style='width:350px;height:100px' placeholder='Observaciones del prestamo' required onfocus></textarea></center></form><button type='submit' form='FormPrestamo'>Prestar</button><a href='RecepcionMaterial?opc=1' id='formVolver' method='post'><button type='submit' required  form='formVolver'>Volver</button></a>",
-                            type: "warning",
-                            showConfirmButton: false,
-                            html: true,
-                        });
-                    }
-                </script>-->
         <script type="text/javascript">
             function PrestamoRecepcion(id_recepcion, unidad) {
                 Swal.fire({
@@ -247,7 +393,6 @@
                     preConfirm: () => {
                         const cantidad = document.getElementById('Txt_cantidad').value.trim();
                         const justificacion = document.getElementById('Txt_justificacion').value.trim();
-
                         if (!cantidad || !justificacion) {
                             return Swal.showValidationMessage('Debes proporcionar tanto la cantidad como las observaciones.');
                         }
@@ -258,24 +403,20 @@
                     if (result.isConfirmed) {
                         const justificacion = result.value.justificacion;
                         const cantidad = result.value.cantidad;
-
                         // Crear el formulario y enviar los datos
                         const form = document.createElement('form');
                         form.action = 'RecepcionMaterial?opc=6&idRegistro=' + id_recepcion + '&und=' + unidad;
                         form.method = 'post';
-
                         const cantidadInput = document.createElement('input');
                         cantidadInput.type = 'hidden';
                         cantidadInput.name = 'Txt_cantidad';
                         cantidadInput.value = cantidad;
                         form.appendChild(cantidadInput);
-
                         const justificacionInput = document.createElement('input');
                         justificacionInput.type = 'hidden';
                         justificacionInput.name = 'Txt_justificacion';
                         justificacionInput.value = justificacion;
                         form.appendChild(justificacionInput);
-
                         document.body.appendChild(form);
                         form.submit();
                     }
@@ -292,7 +433,6 @@
                 var idString = "[" + id + "]";
                 var ccString = cc + ", ";
                 var row = checkbox.closest("tr");
-
                 if (checkbox.checked) {
                     if (!idInyInput.value.includes(idString)) {
                         idInyInput.value += idString;
@@ -313,7 +453,6 @@
 
             function enviar_masivo() {
                 var ccInyInput = document.getElementById("id_recp").value;
-
                 swal({
                     title: "Firmar Registros?",
                     text: "Seguro que desea firmar estos registros: (" + ccInyInput + ")!",

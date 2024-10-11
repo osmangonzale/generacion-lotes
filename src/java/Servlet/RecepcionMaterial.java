@@ -6,6 +6,7 @@ import Controladores.VerificacionRecepcionJpaController;
 import Factory.ReferenciasInv;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -31,15 +32,16 @@ public class RecepcionMaterial extends HttpServlet {
             //<editor-fold defaultstate="collapsed" desc="SESION">
             HttpSession sesion = request.getSession();
             String rol_usuario = sesion.getAttribute("Rol/Nombres").toString();
+            String nombreusu = sesion.getAttribute("Nombres").toString();
             String UserRol = sesion.getAttribute("Id_rol").toString();
 //</editor-fold>
             //<editor-fold defaultstate="collapsed" desc="VARIABLES">
             int opc = Integer.parseInt(request.getParameter("opc").toString());
             String codigo, referencia, fecha, llegada, descargue, lote, proveedor, refproveedor, cadena, unidad1, unidad2, unidad, nombre, tipo_registro, file_name = "";
-            String justificacion, arreglo, observacion, umPesaje, repesaje, finalizaDescargue, obs1, obs2, obs3, obs4, obs5, obs6, obs7, obs9, obs10, obs11, obs12 = "";
-            int clasificacion, tipo, rgc, consecutivo, cantidad, cantidad1, cantidad2, idRegistro, temp, resultado, estado2, estado3, cedula, estado4, id_add_anexo = 0, id_m_anexo = 0, tempF = 0;
+            String justificacion, arreglo, observacion, umPesaje, repesaje, finalizaDescargue, obs1, obs2, obs3, obs4, obs5, obs6, obs7, obs9, obs10, obs11, obs12, parametro = "";
+            int clasificacion, tipo, rgc, consecutivo, cantidad, cantidad1, cantidad2, idRegistro, temp, resultado = 0, estado2, estado3, cedula, estado4, count, id_add_anexo = 0, id_m_anexo = 0, tempF = 0;
             int estadoEmpaques, estadoNucleos, fueraHorario, radio1, radio2, radio3, radio4, radio5, radio6, radio7, radio8, radio9, radio10, radio11, radio12, radio13, radio14, pesaje, id_anexos = 0;
-            int id, id_order = 0, tempp = 0;
+            int id, id_order = 0, tempp = 0, tempG = 0;
             String[] rango = null;
             String rangoParam = "";
             int id_rol, id_rol_permission = 0;
@@ -192,14 +194,19 @@ public class RecepcionMaterial extends HttpServlet {
                         tempp = 0;
                     }
                     try {
+                        tempG = Integer.parseInt(request.getParameter("tempG"));
+                    } catch (Exception e) {
+                        tempG = 0;
+                    }
+                    try {
                         id_order = Integer.parseInt(request.getParameter("id_order"));
                     } catch (Exception e) {
                         id_order = 0;
                     }
                     try {
-                        rangoParam = request.getParameter("rango");
+                        parametro = request.getParameter("parametro");
                     } catch (Exception e) {
-                        rangoParam = null;
+                        parametro = null;
                     }
                     try {
                         id_rol_permission = Integer.parseInt(request.getParameter("id_rol_permission"));
@@ -213,7 +220,7 @@ public class RecepcionMaterial extends HttpServlet {
                     request.setAttribute("temp", temp);
                     request.setAttribute("id_add_anexo", id_add_anexo);
                     request.setAttribute("id_m_anexo", id_m_anexo);
-                    request.setAttribute("rango", rangoParam);
+                    request.setAttribute("parametro", parametro);
                     request.setAttribute("Rol/Nombres", rol_usuario);
                     request.setAttribute("tempF", tempF);
                     request.setAttribute("tempp", tempp);
@@ -225,8 +232,12 @@ public class RecepcionMaterial extends HttpServlet {
 //</editor-fold>
                 //<editor-fold defaultstate="collapsed" desc="CASO 2 REGISTRAR RECEPCION">
                 case 2:
-                    cadena = cantidad1 + " " + unidad1 + " * " + cantidad2 + " " + unidad2;
-                    result = jpac_recepcion.Registrar_Recepcion(codigo, referencia, fecha, llegada, descargue, clasificacion, tipo, rgc, lote, consecutivo, proveedor, refproveedor, cadena, cantidad, unidad, rol_usuario);
+                    cadena = cantidad1 + " " + unidad1 + " x " + cantidad2 + " " + unidad2;
+                    String codref[] = referencia.split("/");
+                    String cod = codref[0].toString().trim();
+                    String ref = codref[1].toString().trim();
+
+                    result = jpac_recepcion.Registrar_Recepcion(cod, ref, fecha, llegada, descargue, clasificacion, tipo, rgc, lote, consecutivo, proveedor, refproveedor, cadena, cantidad, unidad, rol_usuario);
                     if (result) {
                         request.setAttribute("Registrar_Recepcion", result);
                         request.getRequestDispatcher("RecepcionMaterial?opc=1&codigo=").forward(request, response);
@@ -252,7 +263,7 @@ public class RecepcionMaterial extends HttpServlet {
                     request.setAttribute("unidad2", unidad2);
                     request.setAttribute("unidad2", unidad);
                     request.setAttribute("usuario", rol_usuario);
-                    cadena = cantidad1 + " " + unidad1 + " * " + cantidad2 + " " + unidad2;
+                    cadena = cantidad1 + " " + unidad1 + " x " + cantidad2 + " " + unidad2;
                     result = jpac_recepcion.Modificar_Recepcion(idRegistro, fecha, llegada, descargue, clasificacion, lote, consecutivo, proveedor, refproveedor, cadena, cantidad, unidad, rol_usuario);
                     if (result) {
                         request.setAttribute("Modificar_Recepcion", result);
@@ -283,6 +294,13 @@ public class RecepcionMaterial extends HttpServlet {
                 case 5:
                     idRegistro = Integer.parseInt(request.getParameter("idRegistro"));
                     observacion = request.getParameter("Txt_observacion");
+
+                    if (observacion.equals("") || (observacion == null)) {
+                        observacion = "N/A";
+                    } else {
+                        observacion = request.getParameter("Txt_observacion");
+                    }
+
                     result = jpac_recepcion.ActualizacionObservacion(idRegistro, observacion);
                     if (result) {
                         request.setAttribute("registrar_observacion", result);
@@ -454,6 +472,7 @@ public class RecepcionMaterial extends HttpServlet {
                     String obs9Checked = (obs9 == null || obs9.isEmpty()) ? "N/A" : obs9;
                     String obs10Checked = (obs10 == null || obs10.isEmpty()) ? "N/A" : obs10;
                     String obs11Checked = (obs11 == null || obs11.isEmpty()) ? "N/A" : obs11;
+                    String obs12Checked = (obs11 == null || obs12.isEmpty()) ? "N/A" : obs12;
 
                     arreglo = "[[" + 1 + "," + radio1 + "," + obs1Checked + "],"
                             + "[" + 2 + "," + radio2 + "," + obs2Checked + "],"
@@ -466,7 +485,7 @@ public class RecepcionMaterial extends HttpServlet {
                             + "[" + 9 + "," + radio9 + "," + obs9Checked + "],"
                             + "[" + 10 + "," + radio10 + "," + obs10Checked + "],"
                             + "[" + 11 + "," + radio11 + "," + obs11Checked + "]],"
-                            + "[" + 12 + "," + radio13 + "," + obs12 + "," + radio14 + "]]";
+                            + "[" + 12 + "," + radio13 + "," + obs12Checked + "," + radio14 + "]]";
                     result = jpac_recepcion.ActualizarVerificacion(idRegistro, arreglo, estado2);
                     if (result) {
                         request.setAttribute("Actualizar_Verificacion", result);
@@ -554,6 +573,11 @@ public class RecepcionMaterial extends HttpServlet {
                     } catch (Exception e) {
                         estado4 = 0;
                     }
+                    try {
+                        count = Integer.parseInt(request.getParameter("count"));
+                    } catch (Exception e) {
+                        count = 0;
+                    }
 
                     int valor = 0;
 //</editor-fold>
@@ -570,9 +594,14 @@ public class RecepcionMaterial extends HttpServlet {
                             }
                         }
                     }
+                    List lst_recep = jpac_recepcion.Lista_Recepcion(idRegistro);
+                    if (lst_recep != null) {
+                        Object[] obj_recepcion = (Object[]) lst_recep.get(0);
+                        count = (int) (obj_recepcion[38]);
+                    }
                     if (valor > 3) {
                         cadena = "[" + nombre + "/" + cedula + "]";
-                        result = jpac_recepcion.ActualizarFirma(valor, idRegistro, cadena, estado4);
+                        result = jpac_recepcion.ActualizarFirma(valor, idRegistro, cadena, estado4, count);
                         if (result) {
                             request.setAttribute("Actualizar_Firmas", result);
                             request.getRequestDispatcher("RecepcionMaterial?opc=1&temp=1&idRegistro=" + idRegistro + "").forward(request, response);
@@ -581,11 +610,10 @@ public class RecepcionMaterial extends HttpServlet {
                             request.getRequestDispatcher("Error.jsp").forward(request, response);
                         }
                     } else {
-                        cadena = rol_usuario;
-                        result = jpac_recepcion.ActualizarFirma(valor, idRegistro, cadena, estado4);
+                        result = jpac_recepcion.ActualizarFirma(valor, idRegistro, nombreusu, estado4, count);
                         if (result) {
                             request.setAttribute("Actualizar_Firmas", result);
-                            request.getRequestDispatcher("RecepcionMaterial?opc=1&temp=1&idRegistro=" + idRegistro + "").forward(request, response);
+                            request.getRequestDispatcher("RecepcionMaterial?opc=1&temp=1&idRegistro=0").forward(request, response);
                         } else {
                             request.setAttribute("Alerta", "Error_usuario");
                             request.getRequestDispatcher("Error.jsp").forward(request, response);
@@ -616,7 +644,7 @@ public class RecepcionMaterial extends HttpServlet {
                     } catch (NumberFormatException e) {
                         id_anexos = 0;
                     }
-                    tipo_registro = "R-GC-059";
+                    tipo_registro = "R-GC-051";
 //</editor-fold>
                     if (id_anexos == 0) {
                         result = jpac_recepcion.Registrar_anexo(id, tipo_registro, file_name, observacion, rol_usuario);
@@ -689,12 +717,60 @@ public class RecepcionMaterial extends HttpServlet {
                     request.getRequestDispatcher("RecepcionMaterial?opc=1&idRegistro=0").forward(request, response);
                     break;
 //</editor-fold>
+                //<editor-fold defaultstate="collapsed" desc="CASO 14 OBTENER CONSECUTIVO">
+                case 14:
+                    String codigocon = request.getParameter("codigo");
+                    String lotecon = request.getParameter("lote");
+
+                    if (codigocon == null || lotecon == null) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Código o lote no proporcionados.");
+                        break;
+                    }
+
+                    List<Object> resultadocon = null;
+                    int consecutivoact = 0;
+
+                    try {
+                        resultadocon = jpac_recepcion.Lista_Consecutivo(codigocon, lotecon);
+                        if (resultadocon != null && !resultadocon.isEmpty()) {
+                            if (resultadocon.size() > 0) {
+                                Object resultcon = resultadocon.get(0);
+                                if (resultcon instanceof Object[]) {
+                                    Object[] rawValue = (Object[]) resultcon;
+                                    if (rawValue.length > 3) {
+                                        Object value = rawValue[3];
+                                        System.out.println("Valor crudo del cuarto elemento: " + value);
+
+                                        try {
+                                            consecutivoact = Integer.parseInt(value.toString());
+                                        } catch (NumberFormatException e) {
+                                            Logger.getLogger(RecepcionMaterial.class.getName()).log(Level.WARNING, "Error al convertir el valor a número", e);
+                                        }
+                                    } else {
+                                        Logger.getLogger(RecepcionMaterial.class.getName()).log(Level.WARNING, "El array no tiene suficientes elementos.");
+                                    }
+                                } else {
+                                    Logger.getLogger(RecepcionMaterial.class.getName()).log(Level.WARNING, "El primer elemento no es un array.");
+                                }
+                            }
+                        }
+                        response.setContentType("text/plain");
+                        response.setCharacterEncoding("UTF-8");
+                        response.getWriter().write(Integer.toString(consecutivoact));
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(RecepcionMaterial.class.getName()).log(Level.SEVERE, null, ex);
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al procesar la solicitud.");
+                    }
+                    break;
+
+//</editor-fold>
             }
         } catch (NumberFormatException e) {
             request.getRequestDispatcher("RecepcionMaterial.jsp").forward(request, response);
         }
     }
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**
      * Handles the HTTP <code>GET</code> method.
